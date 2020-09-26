@@ -1,53 +1,31 @@
-package com.example.videoslider
+package com.example.videoslider.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
+import com.example.videoslider.R
 import com.example.videoslider.adapter.VideoAdapter
 import com.example.videoslider.model.Video
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var videoAdapter: VideoAdapter
-     var videoList: MutableList<Video> = mutableListOf()
 
+    val TAG = MainActivity::class.simpleName
+
+    lateinit var videoAdapter: VideoAdapter
+    lateinit var videoList: MutableList<Video>
     var lastPagePosition: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        videoList.add(
-            Video(
-                this,
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                "Big Buck Bunny"
-            )
-        )
-        videoList.add(
-            Video(
-                this,
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-                "Elephants Dream"
-            )
-        )
-        videoList.add(
-            Video(
-                this,
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-                "For Bigger Escapes"
-            )
-        )
-        videoList.add(
-            Video(
-                this,
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
-                "We Are Going On Bullrun"
-            )
-        )
-
+        videoList = Video.getList(this)
         videoAdapter = VideoAdapter(this, videoList)
         vpVideos.adapter = videoAdapter
 
@@ -63,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 val video = videoList[position]
                 videoList[lastPagePosition].player.pause()
                 video.player.play()
-                lastPagePosition=position
+                lastPagePosition = position
             }
 
             override fun onPageScrollStateChanged(state: Int) {

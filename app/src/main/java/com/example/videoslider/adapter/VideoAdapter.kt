@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
-import com.example.videoslider.MainActivity
 import com.example.videoslider.R
 import com.example.videoslider.model.Video
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
 
 class VideoAdapter(val context: Context, var videoList: MutableList<Video>) : PagerAdapter() {
@@ -48,8 +45,6 @@ class VideoAdapter(val context: Context, var videoList: MutableList<Video>) : Pa
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        Log.d("TAG", "destroy $position")
-
         val view = `object` as View
         container.removeView(view)
     }
